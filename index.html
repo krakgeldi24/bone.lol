@@ -1,75 +1,161 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>bone.lol | Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>@bwne</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
-        body { margin: 0; padding: 0; background-color: #080808; color: #fff; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-        #enter-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); display: flex; justify-content: center; align-items: center; z-index: 200; cursor: pointer; backdrop-filter: blur(10px); }
-        #enter-screen span { font-size: 18px; color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px 30px; border-radius: 30px; transition: all 0.3s ease; }
-        #enter-screen:hover span { background-color: #fff; color: #000; }
-        #main-content { text-align: center; width: 90%; max-width: 400px; padding: 40px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); opacity: 0; transition: opacity 1s ease; visibility: hidden; }
-        .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #111; border: 2px solid #fff; margin: 0 auto 20px; overflow: hidden; }
-        .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
-        h1 { font-size: 24px; font-weight: 600; margin: 0 0 10px; }
-        .username { font-size: 14px; color: #aaa; margin-bottom: 30px; display: block; }
-        .links-container { display: flex; flex-direction: column; gap: 15px; }
-        .link-btn { display: flex; align-items: center; justify-content: center; padding: 15px; background-color: #111; color: #fff; text-decoration: none; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; font-size: 15px; position: relative; }
-        .link-btn:hover { background-color: #fff; color: #000; transform: translateY(-3px); }
-        /* Özel İkon Stili */
-        .btn-icon { position: absolute; left: 15px; width: 24px; height: 24px; object-fit: contain; }
-        #music-player { display: none; }
-        .music-control { position: fixed; bottom: 20px; right: 20px; background: rgba(255, 255, 255, 0.1); color: #fff; border: none; padding: 10px; border-radius: 50%; cursor: pointer; font-size: 18px; z-index: 100; display: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #bg-video {
+            position: fixed;
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+
+        #cursor {
+            width: 10px; height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+            transform: translate(-50%, -50%);
+        }
+
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 1000; display: flex; justify-content: center; align-items: center;
+            transition: opacity 1.5s ease;
+        }
+        #overlay span { 
+            font-size: 13px; color: #fff; letter-spacing: 5px; 
+            border: 1px solid rgba(255,255,255,0.2); padding: 12px 30px;
+            text-transform: uppercase;
+            backdrop-filter: blur(5px);
+        }
+
+        #main { opacity: 0; transition: opacity 2s ease; text-align: center; z-index: 10; }
+        .title { font-size: 70px; font-weight: 900; letter-spacing: 10px; margin-bottom: 5px; }
+        .subtitle { font-size: 11px; letter-spacing: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 40px; }
+
+        .social-bar {
+            display: flex; gap: 30px; justify-content: center; 
+            background: rgba(0,0,0,0.3); padding: 18px 40px; border-radius: 100px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08);
+        }
+        .social-bar a { color: #fff; font-size: 22px; transition: 0.4s ease; opacity: 0.5; text-decoration: none; }
+        .social-bar a:hover { opacity: 1; transform: translateY(-5px); text-shadow: 0 0 15px #fff; }
+
+        #snow-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
     </style>
 </head>
 <body>
 
-    <div id="enter-screen" onclick="enterSite()"><span>Girmek İçin Tıkla</span></div>
-    <audio id="music-player" loop><source src="https://files.catbox.moe/p9qj0v.mp3" type="audio/mpeg"></audio>
-    <button id="music-btn" class="music-control" onclick="toggleMusic()"><i id="music-icon" class="fas fa-play"></i></button>
+    <div id="cursor"></div>
 
-    <div id="main-content">
-        <div class="profile-pic"><img src="discord.png" alt="Profile"></div>
-        <h1>bone.lol</h1>
-        <span class="username">@krakgeldi24</span>
+    <div id="overlay" onclick="startSite()">
+        <span>Click to enter</span>
+    </div>
 
-        <div class="links-container">
-            <a href="https://youtube.com/@the_bonehub" target="_blank" class="link-btn"><img src="youtube.png" class="btn-icon"> The Bonehub</a>
-            <a href="https://youtube.com/@b0neb0ll" target="_blank" class="link-btn"><img src="youtube.png" class="btn-icon"> b0neb0ll</a>
-            <a href="https://discord.gg/XWCW6khN6" target="_blank" class="link-btn"><img src="discord.png" class="btn-icon"> Discord Sunucusu</a>
-            <a href="https://open.spotify.com/artist/0" target="_blank" class="link-btn"><img src="spotify.png" class="btn-icon"> Spotify</a>
-            <a href="https://www.roblox.com/tr/users/5428258131/profile" target="_blank" class="link-btn"><img src="robilaks.png" class="btn-icon"> Roblox Profil 1</a>
-            <a href="https://www.roblox.com/tr/users/2507672942/profile" target="_blank" class="link-btn"><img src="robilaks.png" class="btn-icon"> Roblox Profil 2</a>
-            <a href="https://www.roblox.com/tr/users/5862029625/profile" target="_blank" class="link-btn"><img src="robilaks.png" class="btn-icon"> Roblox Profil 3</a>
+    <video id="bg-video" loop muted playsinline>
+        <source src="dark-queen-knight-moewalls-com (online-video-cutter.com) (1).mp4" type="video/mp4">
+    </video>
+
+    <audio id="music" loop>
+        <source src="DEHA INC. - ALÆCARTE-X (Official Music Video).mp3" type="audio/mpeg">
+    </audio>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <div id="main">
+        <h1 class="title">bwne</h1>
+        <p class="subtitle">B O N E</p>
+
+        <div class="social-bar">
+            <a href="https://youtube.com/@the_bonehub" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://youtube.com/@b0neb0ll" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://discord.gg/XWCW6khN6" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="http://googleusercontent.com/spotify.com/4" target="_blank"><i class="fab fa-spotify"></i></a>
+            <a href="https://roblox.com" target="_blank"><i class="fas fa-gamepad"></i></a>
         </div>
     </div>
 
     <script>
-        var audio = document.getElementById("music-player");
-        var icon = document.getElementById("music-icon");
-        var musicBtn = document.getElementById("music-btn");
-        var enterScreen = document.getElementById("enter-screen");
-        var mainContent = document.getElementById("main-content");
+        const cursor = document.getElementById('cursor');
+        const video = document.getElementById('bg-video');
+        const audio = document.getElementById('music');
 
-        function enterSite() {
-            enterScreen.style.display = "none";
-            mainContent.style.visibility = "visible";
-            mainContent.style.opacity = "1";
-            musicBtn.style.display = "block";
-            document.body.style.overflow = "auto";
-            audio.play();
-            icon.classList.remove("fa-play");
-            icon.classList.add("fa-pause");
+        // Mouse Takibi
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Giriş Fonksiyonu
+        function startSite() {
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('main').style.opacity = '1';
+                video.play();
+                audio.play();
+            }, 1000);
         }
 
-        function toggleMusic() {
-            if (audio.paused) { audio.play(); icon.classList.replace("fa-play", "fa-pause"); }
-            else { audio.pause(); icon.classList.replace("fa-pause", "fa-play"); }
+        // Sekme Başlığı Animasyonu (@bwne sağa sola gidiyor)
+        let titleText = "@bwne ";
+        let position = 0;
+        let direction = 1;
+
+        setInterval(() => {
+            let displayTitle = titleText.substring(0, position);
+            document.title = displayTitle || "@"; 
+            position += direction;
+            if (position >= titleText.length || position <= 0) direction *= -1;
+        }, 300);
+
+        // Kar Efekti
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.init(); }
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.2;
+                this.speed = Math.random() * 0.8 + 0.2;
+                this.opacity = Math.random();
+            }
+            update() { this.y += this.speed; if (this.y > canvas.height) this.y = -5; }
+            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
+
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        animate();
     </script>
 </body>
 </html>
