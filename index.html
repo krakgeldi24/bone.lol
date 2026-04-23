@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@bwne</title>
+    <title>@ B O N E</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* GENEL AYARLAR */
+        /* GENEL AYARLAR - KURSÖRÜ SIFIRLA */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body {
             background-color: #000;
@@ -19,7 +19,7 @@
             align-items: center;
         }
 
-        /* ARKA PLAN VİDEOSU */
+        /* VİDEO ARKA PLAN - TÜM EKRAN VE TAM PARLAKLIK */
         #bg-video {
             position: fixed;
             top: 50%; left: 50%;
@@ -27,7 +27,7 @@
             z-index: -1;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            filter: brightness(0.4) blur(2px); /* Odak merkeze çekilsin diye hafif blur */
+            filter: brightness(1.0); /* Karartmayı kaldırdık */
         }
 
         /* BEYAZ DAİRE İMLEÇ */
@@ -55,7 +55,7 @@
             text-transform: uppercase;
         }
 
-        /* ANA KONTEYNER (Guns.lol Tarzı Kompakt Düzen) */
+        /* ANA KONTEYNER - AŞIRI KÜÇÜK VE ODALANMIŞ */
         #main { 
             opacity: 0; 
             transition: opacity 2s ease; 
@@ -64,52 +64,60 @@
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 40px;
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Guns.lol tarzı daha belirgin, aşırı kompakt kart */
+            background: rgba(0, 0, 0, 0.35);
+            padding: 25px; /* Pedleri çok kıstık */
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             width: 90%;
-            max-width: 420px; /* İçeriği burada sınırladık */
+            max-width: 320px; /* Merkezi kartı aşırı küçülttük */
+            margin-top: -10px; /* Biraz yukarı çektik */
         }
         
         .profile-pic {
-            width: 95px;
-            height: 95px;
+            width: 80px; /* Resmi küçülttük */
+            height: 80px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.5);
-            margin-bottom: 15px;
-            box-shadow: 0 0 25px rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.4);
+            margin-bottom: 12px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
         .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* YAZILAR (Daha orantılı hale getirildi) */
+        /* YAZILAR - KÜÇÜLTÜLDÜ VE YAKINLAŞTIRILDI */
         .title { 
-            font-size: 38px; /* Çok büyük olan başlık küçültüldü */
+            font-size: 28px; /* Başlığı çok küçülttük */
             font-weight: 900; 
-            letter-spacing: 8px; 
-            margin-bottom: 2px; 
-            text-shadow: 0 0 20px rgba(255,255,255,0.2); 
+            letter-spacing: 6px; 
+            margin-bottom: 0px; 
+            text-shadow: 0 0 15px rgba(255,255,255,0.2); 
         }
         .subtitle { 
-            font-size: 11px; 
-            letter-spacing: 5px; 
+            font-size: 10px; 
+            letter-spacing: 4px; 
             color: rgba(255,255,255,0.5); 
             text-transform: uppercase; 
-            margin-bottom: 30px; 
+            margin-bottom: 20px; /* Çok yakın */
         }
 
-        /* SOSYAL MEDYA BAR */
+        /* SOSYAL MEDYA BAR - KOMPAKT */
         .social-bar {
-            display: flex; gap: 20px; justify-content: center; 
-            background: rgba(255,255,255,0.05); padding: 12px 25px; border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; gap: 15px; justify-content: center; 
+            background: rgba(255,255,255,0.03); padding: 10px 20px; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.06);
         }
-        .social-bar a { color: #fff; font-size: 18px; transition: 0.3s ease; opacity: 0.6; text-decoration: none; }
-        .social-bar a:hover { opacity: 1; transform: scale(1.2); text-shadow: 0 0 10px #fff; }
+        .social-bar a { color: #fff; font-size: 16px; transition: 0.3s ease; opacity: 0.5; text-decoration: none; }
+        .social-bar a:hover { opacity: 1; transform: scale(1.15); text-shadow: 0 0 10px #fff; }
 
+        /* KAR YAĞMA EFEKTİ */
         #snow-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        
+        /* SES VE GÖRÜNTÜLENME (Opsiyonel Guns.lol detayları) */
+        #sound-info {
+            position: fixed; top: 15px; left: 15px; font-size: 12px; color: rgba(255,255,255,0.3); z-index: 100;
+        }
     </style>
 </head>
 <body>
@@ -127,6 +135,8 @@
     <audio id="music" loop>
         <source src="DEHA INC. - ALÆCARTE-X (Official Music Video).mp3" type="audio/mpeg">
     </audio>
+    
+    <div id="sound-info"><i class="fas fa-volume-up"></i></div>
 
     <canvas id="snow-canvas"></canvas>
 
@@ -135,8 +145,8 @@
             <img src="pfp.jpg" alt="Profile Picture">
         </div>
 
-        <h1 class="title">B O N E</h1>
-        <p class="subtitle">@bwne</p>
+        <h1 class="title">@ B O N E</h1>
+        <p class="subtitle">@ B O N E</p>
 
         <div class="social-bar">
             <a href="https://youtube.com/@the_bonehub" target="_blank"><i class="fab fa-youtube"></i></a>
@@ -168,7 +178,7 @@
         }
 
         // Sekme Animasyonu
-        let titleText = "@bwne ";
+        let titleText = "@ B O N E ";
         let position = 0;
         let direction = 1;
         setInterval(() => {
@@ -178,7 +188,7 @@
             if (position >= titleText.length || position <= 0) direction *= -1;
         }, 300);
 
-        // Kar Yağışı
+        // Kar Yağışı (Tıpkı Guns.lol'daki gibi daha hafif)
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -191,15 +201,15 @@
             init() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.2;
-                this.speed = Math.random() * 0.8 + 0.2;
+                this.size = Math.random() * 1.2 + 0.1; /* Daha küçük kar taneleri */
+                this.speed = Math.random() * 0.6 + 0.1;
                 this.opacity = Math.random();
             }
             update() { this.y += this.speed; if (this.y > canvas.height) this.y = -5; }
             draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
 
-        for (let i = 0; i < 100; i++) particles.push(new Particle());
+        for (let i = 0; i < 90; i++) particles.push(new Particle());
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
     </script>
