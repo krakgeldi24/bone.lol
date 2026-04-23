@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ B O N E</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>@bwne</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* GENEL AYARLAR */
@@ -14,23 +14,24 @@
             font-family: 'Inter', sans-serif;
             overflow: hidden;
             height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* VİDEO ARKA PLAN */
+        /* ARKA PLAN VİDEOSU (MOBİL UYUMLU) */
         #bg-video {
             position: fixed;
             top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%;
+            width: 100%; height: 100%;
             z-index: -1;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            filter: brightness(0.8); /* Videoyu hafif karartır */
+            filter: brightness(0.4);
         }
 
-        /* BEYAZ DAİRE İMLEÇ */
+        /* BEYAZ DAİRE İMLEÇ (SADECE PC) */
         #cursor {
             width: 10px; height: 10px;
             background: #fff;
@@ -40,7 +41,6 @@
             z-index: 9999;
             box-shadow: 0 0 15px rgba(255, 255, 255, 1);
             transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s;
         }
 
         /* GİRİŞ EKRANI */
@@ -54,45 +54,74 @@
             font-size: 13px; color: #fff; letter-spacing: 5px; 
             border: 1px solid rgba(255,255,255,0.2); padding: 12px 30px;
             text-transform: uppercase;
-            background: rgba(255,255,255,0.02);
             backdrop-filter: blur(5px);
         }
 
-        /* ANA İÇERİK (KOMPAKT) */
-        #main { opacity: 0; transition: opacity 2s ease; text-align: center; z-index: 10; display: flex; flex-direction: column; align-items: center;}
+        /* ANA KART (GUNS.LOL TARZI) */
+        #main { 
+            opacity: 0; 
+            transition: opacity 2s ease; 
+            text-align: center; 
+            z-index: 10; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            background: rgba(0, 0, 0, 0.45);
+            padding: 35px;
+            border-radius: 25px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 85%;
+            max-width: 340px;
+        }
         
-        /* PROFİL RESMİ */
         .profile-pic {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2);
-            margin-bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            margin-bottom: 15px;
             box-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
-        .profile-pic img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* BAŞLIK VE ALT BAŞLIK */
-        .title { font-size: 60px; font-weight: 900; letter-spacing: 15px; margin-bottom: 5px; text-shadow: 0 0 30px rgba(255,255,255,0.3); }
-        .subtitle { font-size: 12px; letter-spacing: 8px; color: rgba(255,255,255,0.6); text-transform: uppercase; margin-bottom: 40px; }
+        .title { font-size: 36px; font-weight: 900; letter-spacing: 10px; margin-bottom: 5px; }
+        .subtitle { font-size: 11px; letter-spacing: 6px; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 30px; }
 
-        /* SOSYAL MEDYA BAR (TEMİZ) */
+        /* SOSYAL MEDYA BAR */
         .social-bar {
-            display: flex; gap: 30px; justify-content: center; 
-            background: rgba(0,0,0,0.3); padding: 18px 40px; border-radius: 100px;
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex; gap: 20px; justify-content: center; 
+            background: rgba(255,255,255,0.05); padding: 12px 25px; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .social-bar a { color: #fff; font-size: 22px; transition: 0.4s ease; opacity: 0.5; text-decoration: none; }
-        .social-bar a:hover { opacity: 1; transform: translateY(-5px) scale(1.2); text-shadow: 0 0 15px #fff; }
+        .social-bar a { color: #fff; font-size: 20px; transition: 0.3s ease; opacity: 0.5; text-decoration: none; }
+        .social-bar a:hover { opacity: 1; transform: scale(1.2); text-shadow: 0 0 10px #fff; }
+
+        /* ZİYARETÇİ SAYACI (SOL ALT) */
+        #visitor-count {
+            position: fixed; bottom: 20px; left: 20px;
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px; border-radius: 50px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px; color: rgba(255, 255, 255, 0.7);
+            z-index: 100;
+        }
+        #visitor-count i { font-size: 14px; }
+        #visitor-count img { filter: invert(1); height: 14px; opacity: 0.8; }
 
         /* KAR YAĞMA EFEKTİ */
         #snow-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+
+        /* MOBİL UYUMLULUK */
+        @media (max-width: 600px) {
+            #cursor { display: none; }
+            .title { font-size: 28px; letter-spacing: 6px; }
+            #main { padding: 25px; width: 90%; }
+            .profile-pic { width: 75px; height: 75px; }
+            #visitor-count { bottom: 10px; left: 10px; font-size: 10px; padding: 6px 12px; }
+        }
     </style>
 </head>
 <body>
@@ -113,20 +142,24 @@
 
     <canvas id="snow-canvas"></canvas>
 
+    <div id="visitor-count">
+        <i class="fas fa-eye"></i>
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fbone-lol-kwuh.vercel.app&count_bg=%2300000000&title_bg=%2300000000&icon=&icon_color=%23ffffff&title=&edge_flat=true" alt="Views"/>
+    </div>
+
     <div id="main">
         <div class="profile-pic">
-            <img src="pfp.jpg" alt="Profile Picture">
+            <img src="pfp.jpg" alt="Profile">
         </div>
 
         <h1 class="title">B O N E</h1>
-        
         <p class="subtitle">@bwne</p>
 
         <div class="social-bar">
             <a href="https://youtube.com/@the_bonehub" target="_blank"><i class="fab fa-youtube"></i></a>
             <a href="https://youtube.com/@b0neb0ll" target="_blank"><i class="fab fa-youtube"></i></a>
             <a href="https://discord.gg/XWCW6khN6" target="_blank"><i class="fab fa-discord"></i></a>
-            <a href="http://googleusercontent.com/spotify.com/6" target="_blank"><i class="fab fa-spotify"></i></a>
+            <a href="http://googleusercontent.com/spotify.com/7" target="_blank"><i class="fab fa-spotify"></i></a>
         </div>
     </div>
 
@@ -135,16 +168,15 @@
         const video = document.getElementById('bg-video');
         const audio = document.getElementById('music');
 
-        // Mouse Takibi ve Tıklama Efekti
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+        // PC'de imleç takibi
+        if (window.innerWidth > 600) {
+            document.addEventListener('mousemove', e => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+        }
 
-        document.addEventListener('mousedown', () => cursor.style.transform = 'translate(-50%, -50%) scale(0.7)');
-        document.addEventListener('mouseup', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
-
-        // Giriş Fonksiyonu
+        // Giriş fonksiyonu
         function startSite() {
             document.getElementById('overlay').style.opacity = '0';
             setTimeout(() => {
@@ -155,11 +187,10 @@
             }, 1000);
         }
 
-        // Sekme Başlığı Animasyonu (@bwne sağa sola gidiyor)
+        // Sekme Animasyonu
         let titleText = "@bwne ";
         let position = 0;
         let direction = 1;
-
         setInterval(() => {
             let displayTitle = titleText.substring(0, position);
             document.title = displayTitle || "@"; 
@@ -167,15 +198,11 @@
             if (position >= titleText.length || position <= 0) direction *= -1;
         }, 300);
 
-        // Kar Yağışı (Canvas Particle System)
+        // Kar Yağışı
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
 
@@ -192,13 +219,8 @@
             draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
 
-        for (let i = 0; i < 120; i++) particles.push(new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
     </script>
 </body>
