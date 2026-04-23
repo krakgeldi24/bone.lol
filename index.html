@@ -6,7 +6,6 @@
     <title>@ B O N E</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* GENEL AYARLAR - KURSÖRÜ SIFIRLA */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body {
             background-color: #000;
@@ -19,7 +18,6 @@
             align-items: center;
         }
 
-        /* VİDEO ARKA PLAN - TÜM EKRAN VE TAM PARLAKLIK */
         #bg-video {
             position: fixed;
             top: 50%; left: 50%;
@@ -27,10 +25,9 @@
             z-index: -1;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            filter: brightness(1.0); /* Karartmayı kaldırdık */
+            filter: brightness(0.8); 
         }
 
-        /* BEYAZ DAİRE İMLEÇ */
         #cursor {
             width: 10px; height: 10px;
             background: #fff;
@@ -42,7 +39,6 @@
             transform: translate(-50%, -50%);
         }
 
-        /* GİRİŞ EKRANI */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000;
@@ -55,7 +51,6 @@
             text-transform: uppercase;
         }
 
-        /* ANA KONTEYNER - AŞIRI KÜÇÜK VE ODALANMIŞ */
         #main { 
             opacity: 0; 
             transition: opacity 2s ease; 
@@ -64,60 +59,49 @@
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            /* Guns.lol tarzı daha belirgin, aşırı kompakt kart */
-            background: rgba(0, 0, 0, 0.35);
-            padding: 25px; /* Pedleri çok kıstık */
+            background: rgba(0, 0, 0, 0.45);
+            padding: 20px;
             border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            width: 90%;
-            max-width: 320px; /* Merkezi kartı aşırı küçülttük */
-            margin-top: -10px; /* Biraz yukarı çektik */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 85%;
+            max-width: 300px; /* Kartı iyice daralttım */
         }
         
         .profile-pic {
-            width: 80px; /* Resmi küçülttük */
-            height: 80px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.4);
-            margin-bottom: 12px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-bottom: 10px;
         }
         .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* YAZILAR - KÜÇÜLTÜLDÜ VE YAKINLAŞTIRILDI */
         .title { 
-            font-size: 28px; /* Başlığı çok küçülttük */
+            font-size: 26px; 
             font-weight: 900; 
-            letter-spacing: 6px; 
-            margin-bottom: 0px; 
-            text-shadow: 0 0 15px rgba(255,255,255,0.2); 
+            letter-spacing: 5px; 
+            margin-bottom: -2px; 
         }
         .subtitle { 
-            font-size: 10px; 
-            letter-spacing: 4px; 
-            color: rgba(255,255,255,0.5); 
+            font-size: 9px; 
+            letter-spacing: 3px; 
+            color: rgba(255,255,255,0.4); 
             text-transform: uppercase; 
-            margin-bottom: 20px; /* Çok yakın */
+            margin-bottom: 18px; 
         }
 
-        /* SOSYAL MEDYA BAR - KOMPAKT */
         .social-bar {
-            display: flex; gap: 15px; justify-content: center; 
-            background: rgba(255,255,255,0.03); padding: 10px 20px; border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.06);
+            display: flex; gap: 12px; justify-content: center; 
+            background: rgba(255,255,255,0.03); padding: 8px 15px; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .social-bar a { color: #fff; font-size: 16px; transition: 0.3s ease; opacity: 0.5; text-decoration: none; }
-        .social-bar a:hover { opacity: 1; transform: scale(1.15); text-shadow: 0 0 10px #fff; }
+        /* Konsol ikonu yerine genel bir link ikonu kullandım */
+        .social-bar a { color: #fff; font-size: 15px; transition: 0.3s ease; opacity: 0.5; text-decoration: none; }
+        .social-bar a:hover { opacity: 1; transform: scale(1.1); }
 
-        /* KAR YAĞMA EFEKTİ */
         #snow-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
-        
-        /* SES VE GÖRÜNTÜLENME (Opsiyonel Guns.lol detayları) */
-        #sound-info {
-            position: fixed; top: 15px; left: 15px; font-size: 12px; color: rgba(255,255,255,0.3); z-index: 100;
-        }
     </style>
 </head>
 <body>
@@ -135,14 +119,12 @@
     <audio id="music" loop>
         <source src="DEHA INC. - ALÆCARTE-X (Official Music Video).mp3" type="audio/mpeg">
     </audio>
-    
-    <div id="sound-info"><i class="fas fa-volume-up"></i></div>
 
     <canvas id="snow-canvas"></canvas>
 
     <div id="main">
         <div class="profile-pic">
-            <img src="pfp.jpg" alt="Profile Picture">
+            <img src="pfp.jpg" alt="Profile">
         </div>
 
         <h1 class="title">@ B O N E</h1>
@@ -152,8 +134,8 @@
             <a href="https://youtube.com/@the_bonehub" target="_blank"><i class="fab fa-youtube"></i></a>
             <a href="https://youtube.com/@b0neb0ll" target="_blank"><i class="fab fa-youtube"></i></a>
             <a href="https://discord.gg/XWCW6khN6" target="_blank"><i class="fab fa-discord"></i></a>
-            <a href="http://googleusercontent.com/spotify.com/5" target="_blank"><i class="fab fa-spotify"></i></a>
-            <a href="https://roblox.com" target="_blank"><i class="fas fa-gamepad"></i></a>
+            <a href="http://googleusercontent.com/spotify.com/6" target="_blank"><i class="fab fa-spotify"></i></a>
+            <a href="https://roblox.com" target="_blank"><i class="fas fa-link"></i></a>
         </div>
     </div>
 
@@ -177,7 +159,6 @@
             }, 1000);
         }
 
-        // Sekme Animasyonu
         let titleText = "@ B O N E ";
         let position = 0;
         let direction = 1;
@@ -188,7 +169,6 @@
             if (position >= titleText.length || position <= 0) direction *= -1;
         }, 300);
 
-        // Kar Yağışı (Tıpkı Guns.lol'daki gibi daha hafif)
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -201,15 +181,15 @@
             init() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.2 + 0.1; /* Daha küçük kar taneleri */
-                this.speed = Math.random() * 0.6 + 0.1;
+                this.size = Math.random() * 1.1 + 0.1;
+                this.speed = Math.random() * 0.5 + 0.1;
                 this.opacity = Math.random();
             }
             update() { this.y += this.speed; if (this.y > canvas.height) this.y = -5; }
             draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
 
-        for (let i = 0; i < 90; i++) particles.push(new Particle());
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
     </script>
