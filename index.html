@@ -8,198 +8,68 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* TEMEL STİLLER (Guns.lol Tarzı Karanlık Tema) */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #080808; /* Çok koyu gri/siyah */
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden; /* Müzik autoplay için gerekebilir */
-        }
-
-        /* ANA KONTEYNER */
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.03); /* Çok hafif şeffaf arka plan */
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px); /* Arka planı hafif bulanıklaştır */
-        }
-
-        /* PROFİL LOGOSU */
-        .profile-logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: #111; /* Logo yoksa siyah daire */
-            border: 2px solid #fff;
-            margin: 0 auto 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
-            font-weight: 600;
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        /* BAŞLIK VE KULLANICI ADI */
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin: 0 0 10px;
-        }
-
-        .username {
-            font-size: 14px;
-            color: #aaa;
-            margin-bottom: 30px;
-            display: block;
-        }
-
-        /* BUTON STİLLERİ */
-        .links-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .link-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            background-color: #111; /* Buton arka planı */
-            color: #fff;
-            text-decoration: none;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-            font-size: 15px;
-            font-weight: 400;
-            position: relative;
-        }
-
-        /* Buton Hover Efekti */
-        .link-btn:hover {
-            background-color: #fff;
-            color: #000;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Buton İkonları */
-        .link-btn i {
-            margin-right: 10px;
-            font-size: 18px;
-            position: absolute;
-            left: 20px;
-        }
-
-        /* MÜZİK PLAYER (GİZLİ) */
-        #music-player {
-            display: none;
-        }
-
-        /* Müzik Kontrol Butonu (İsteğe bağlı, ekranın köşesinde durur) */
-        .music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            z-index: 100;
-        }
+        body { margin: 0; padding: 0; background-color: #080808; color: #fff; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+        #enter-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); display: flex; justify-content: center; align-items: center; z-index: 200; cursor: pointer; backdrop-filter: blur(10px); }
+        #enter-screen span { font-size: 18px; color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px 30px; border-radius: 30px; transition: all 0.3s ease; }
+        #enter-screen:hover span { background-color: #fff; color: #000; }
+        #main-content { text-align: center; width: 90%; max-width: 400px; padding: 40px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); opacity: 0; transition: opacity 1s ease; visibility: hidden; }
+        .profile-pic { width: 100px; height: 100px; border-radius: 50%; background-color: #111; border: 2px solid #fff; margin: 0 auto 20px; overflow: hidden; }
+        .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+        h1 { font-size: 24px; font-weight: 600; margin: 0 0 10px; }
+        .username { font-size: 14px; color: #aaa; margin-bottom: 30px; display: block; }
+        .links-container { display: flex; flex-direction: column; gap: 15px; }
+        .link-btn { display: flex; align-items: center; justify-content: center; padding: 15px; background-color: #111; color: #fff; text-decoration: none; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; font-size: 15px; position: relative; }
+        .link-btn:hover { background-color: #fff; color: #000; transform: translateY(-3px); }
+        /* Özel İkon Stili */
+        .btn-icon { position: absolute; left: 15px; width: 24px; height: 24px; object-fit: contain; }
+        #music-player { display: none; }
+        .music-control { position: fixed; bottom: 20px; right: 20px; background: rgba(255, 255, 255, 0.1); color: #fff; border: none; padding: 10px; border-radius: 50%; cursor: pointer; font-size: 18px; z-index: 100; display: none; }
     </style>
 </head>
 <body>
 
-    <audio id="music-player" loop>
-        <source src="https://files.catbox.moe/p9qj0v.mp3" type="audio/mpeg">
-        Tarayıcınız müzik çalmayı desteklemiyor.
-    </audio>
+    <div id="enter-screen" onclick="enterSite()"><span>Girmek İçin Tıkla</span></div>
+    <audio id="music-player" loop><source src="https://files.catbox.moe/p9qj0v.mp3" type="audio/mpeg"></audio>
+    <button id="music-btn" class="music-control" onclick="toggleMusic()"><i id="music-icon" class="fas fa-play"></i></button>
 
-    <button class="music-control" onclick="toggleMusic()">
-        <i id="music-icon" class="fas fa-play"></i>
-    </button>
-
-    <div class="container">
-        <div class="profile-logo">B</div>
-
+    <div id="main-content">
+        <div class="profile-pic"><img src="discord.png" alt="Profile"></div>
         <h1>bone.lol</h1>
         <span class="username">@krakgeldi24</span>
 
         <div class="links-container">
-            <a href="https://youtube.com/@the_bonehub" target="_blank" class="link-btn">
-                <i class="fab fa-youtube"></i> The Bonehub
-            </a>
-
-            <a href="https://youtube.com/@b0neb0ll" target="_blank" class="link-btn">
-                <i class="fab fa-youtube"></i> b0neb0ll
-            </a>
-
-            <a href="https://discord.gg/XWCW6khN6" target="_blank" class="link-btn">
-                <i class="fab fa-discord"></i> Discord Sunucusu
-            </a>
-
-            <a href="https://open.spotify.com/artist/0" target="_blank" class="link-btn">
-                <i class="fab fa-spotify"></i> Spotify
-            </a>
-
-            <a href="https://www.roblox.com/tr/users/5428258131/profile?friendshipSourceType=PlayerSearch" target="_blank" class="link-btn">
-                <i class="fas fa-gamepad"></i> Roblox Profil 1
-            </a>
-
-            <a href="https://www.roblox.com/tr/users/2507672942/profile?friendshipSourceType=PlayerSearch" target="_blank" class="link-btn">
-                <i class="fas fa-gamepad"></i> Roblox Profil 2
-            </a>
-
-            <a href="https://www.roblox.com/tr/users/5862029625/profile?friendshipSourceType=PlayerSearch" target="_blank" class="link-btn">
-                <i class="fas fa-gamepad"></i> Roblox Profil 3
-            </a>
+            <a href="https://youtube.com/@the_bonehub" target="_blank" class="link-btn"><img src="youtube.png" class="btn-icon"> The Bonehub</a>
+            <a href="https://youtube.com/@b0neb0ll" target="_blank" class="link-btn"><img src="youtube.png" class="btn-icon"> b0neb0ll</a>
+            <a href="https://discord.gg/XWCW6khN6" target="_blank" class="link-btn"><img src="discord.png" class="btn-icon"> Discord Sunucusu</a>
+            <a href="https://open.spotify.com/artist/0" target="_blank" class="link-btn"><img src="spotify.png" class="btn-icon"> Spotify</a>
+            <a href="https://www.roblox.com/tr/users/5428258131/profile" target="_blank" class="link-btn"><img src="robilaks.png" class="btn-icon"> Roblox Profil 1</a>
+            <a href="https://www.roblox.com/tr/users/2507672942/profile" target="_blank" class="link-btn"><img src="robilaks.png" class="btn-icon"> Roblox Profil 2</a>
+            <a href="https://www.roblox.com/tr/users/5862029625/profile" target="_blank" class="link-btn"><img src="robilaks.png" class="btn-icon"> Roblox Profil 3</a>
         </div>
     </div>
 
     <script>
-        // Müzik kontrol fonksiyonu
         var audio = document.getElementById("music-player");
         var icon = document.getElementById("music-icon");
+        var musicBtn = document.getElementById("music-btn");
+        var enterScreen = document.getElementById("enter-screen");
+        var mainContent = document.getElementById("main-content");
 
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                icon.classList.remove("fa-play");
-                icon.classList.add("fa-pause");
-            } else {
-                audio.pause();
-                icon.classList.remove("fa-pause");
-                icon.classList.add("fa-play");
-            }
+        function enterSite() {
+            enterScreen.style.display = "none";
+            mainContent.style.visibility = "visible";
+            mainContent.style.opacity = "1";
+            musicBtn.style.display = "block";
+            document.body.style.overflow = "auto";
+            audio.play();
+            icon.classList.remove("fa-play");
+            icon.classList.add("fa-pause");
         }
 
-        // Sayfa yüklendiğinde müziği başlatmayı dene (tarayıcı izin verirse)
-        window.addEventListener('load', function() {
-            // Birçok tarayıcı bunu engelleyecektir, kullanıcı bir yere tıklamalıdır.
-            // Bu yüzden sağ alttaki butona basılması gerekebilir.
-            audio.play().catch(function(error) {
-                console.log("Otomatik oynatma engellendi, lütfen oynat butonuna basın.");
-            });
-        });
+        function toggleMusic() {
+            if (audio.paused) { audio.play(); icon.classList.replace("fa-play", "fa-pause"); }
+            else { audio.pause(); icon.classList.replace("fa-pause", "fa-play"); }
+        }
     </script>
-
 </body>
 </html>
