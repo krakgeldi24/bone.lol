@@ -6,6 +6,7 @@
     <title>@bwne</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* GENEL AYARLAR */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body {
             background-color: #000;
@@ -18,6 +19,7 @@
             align-items: center;
         }
 
+        /* ARKA PLAN VİDEOSU */
         #bg-video {
             position: fixed;
             top: 50%; left: 50%;
@@ -25,9 +27,10 @@
             z-index: -1;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            filter: brightness(0.5);
+            filter: brightness(0.4) blur(2px); /* Odak merkeze çekilsin diye hafif blur */
         }
 
+        /* BEYAZ DAİRE İMLEÇ */
         #cursor {
             width: 10px; height: 10px;
             background: #fff;
@@ -39,6 +42,7 @@
             transform: translate(-50%, -50%);
         }
 
+        /* GİRİŞ EKRANI */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000;
@@ -49,20 +53,61 @@
             font-size: 13px; color: #fff; letter-spacing: 5px; 
             border: 1px solid rgba(255,255,255,0.2); padding: 12px 30px;
             text-transform: uppercase;
-            backdrop-filter: blur(5px);
         }
 
-        #main { opacity: 0; transition: opacity 2s ease; text-align: center; z-index: 10; }
-        .title { font-size: 70px; font-weight: 900; letter-spacing: 10px; margin-bottom: 5px; }
-        .subtitle { font-size: 11px; letter-spacing: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 40px; }
+        /* ANA KONTEYNER (Guns.lol Tarzı Kompakt Düzen) */
+        #main { 
+            opacity: 0; 
+            transition: opacity 2s ease; 
+            text-align: center; 
+            z-index: 10; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 40px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 420px; /* İçeriği burada sınırladık */
+        }
+        
+        .profile-pic {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.5);
+            margin-bottom: 15px;
+            box-shadow: 0 0 25px rgba(255,255,255,0.15);
+        }
+        .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* YAZILAR (Daha orantılı hale getirildi) */
+        .title { 
+            font-size: 38px; /* Çok büyük olan başlık küçültüldü */
+            font-weight: 900; 
+            letter-spacing: 8px; 
+            margin-bottom: 2px; 
+            text-shadow: 0 0 20px rgba(255,255,255,0.2); 
+        }
+        .subtitle { 
+            font-size: 11px; 
+            letter-spacing: 5px; 
+            color: rgba(255,255,255,0.5); 
+            text-transform: uppercase; 
+            margin-bottom: 30px; 
+        }
+
+        /* SOSYAL MEDYA BAR */
         .social-bar {
-            display: flex; gap: 30px; justify-content: center; 
-            background: rgba(0,0,0,0.3); padding: 18px 40px; border-radius: 100px;
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08);
+            display: flex; gap: 20px; justify-content: center; 
+            background: rgba(255,255,255,0.05); padding: 12px 25px; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .social-bar a { color: #fff; font-size: 22px; transition: 0.4s ease; opacity: 0.5; text-decoration: none; }
-        .social-bar a:hover { opacity: 1; transform: translateY(-5px); text-shadow: 0 0 15px #fff; }
+        .social-bar a { color: #fff; font-size: 18px; transition: 0.3s ease; opacity: 0.6; text-decoration: none; }
+        .social-bar a:hover { opacity: 1; transform: scale(1.2); text-shadow: 0 0 10px #fff; }
 
         #snow-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
     </style>
@@ -86,14 +131,18 @@
     <canvas id="snow-canvas"></canvas>
 
     <div id="main">
-        <h1 class="title">bwne</h1>
-        <p class="subtitle">B O N E</p>
+        <div class="profile-pic">
+            <img src="pfp.jpg" alt="Profile Picture">
+        </div>
+
+        <h1 class="title">B O N E</h1>
+        <p class="subtitle">@bwne</p>
 
         <div class="social-bar">
             <a href="https://youtube.com/@the_bonehub" target="_blank"><i class="fab fa-youtube"></i></a>
             <a href="https://youtube.com/@b0neb0ll" target="_blank"><i class="fab fa-youtube"></i></a>
             <a href="https://discord.gg/XWCW6khN6" target="_blank"><i class="fab fa-discord"></i></a>
-            <a href="http://googleusercontent.com/spotify.com/4" target="_blank"><i class="fab fa-spotify"></i></a>
+            <a href="http://googleusercontent.com/spotify.com/5" target="_blank"><i class="fab fa-spotify"></i></a>
             <a href="https://roblox.com" target="_blank"><i class="fas fa-gamepad"></i></a>
         </div>
     </div>
@@ -103,13 +152,11 @@
         const video = document.getElementById('bg-video');
         const audio = document.getElementById('music');
 
-        // Mouse Takibi
         document.addEventListener('mousemove', e => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Giriş Fonksiyonu
         function startSite() {
             document.getElementById('overlay').style.opacity = '0';
             setTimeout(() => {
@@ -120,11 +167,10 @@
             }, 1000);
         }
 
-        // Sekme Başlığı Animasyonu (@bwne sağa sola gidiyor)
+        // Sekme Animasyonu
         let titleText = "@bwne ";
         let position = 0;
         let direction = 1;
-
         setInterval(() => {
             let displayTitle = titleText.substring(0, position);
             document.title = displayTitle || "@"; 
@@ -132,7 +178,7 @@
             if (position >= titleText.length || position <= 0) direction *= -1;
         }, 300);
 
-        // Kar Efekti
+        // Kar Yağışı
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
